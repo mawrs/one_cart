@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { CategoryFilter, SortOption } from '../types';
 
@@ -49,15 +49,21 @@ export function MobileFilterModal({
   ];
 
   return (
-    <div className="fixed inset-0 z-50 lg:hidden">
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black bg-opacity-50"
-        onClick={onClose}
-      />
+    <div 
+      className="fixed inset-0 z-50 lg:hidden"
+      style={{
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        backdropFilter: 'blur(4px)',
+        overflow: 'hidden'
+      }}
+      onClick={onClose}
+    >
       
       {/* Modal */}
-      <div className="fixed inset-y-0 left-0 w-full max-w-sm bg-white shadow-xl transform transition-transform duration-300 ease-in-out">
+      <div 
+        className="fixed inset-y-0 left-0 w-3/4 max-w-md bg-white shadow-xl transform transition-transform duration-300 ease-in-out"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-neutral-200">
           <div className="flex items-center space-x-2">
@@ -93,14 +99,7 @@ export function MobileFilterModal({
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="input pl-10"
-              />
-              <Image
-                src="/magnifying-glass.svg"
-                alt="Search"
-                width={16}
-                height={16}
-                className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none z-10"
+                className="input"
               />
             </div>
           </div>
@@ -178,7 +177,13 @@ export function MobileFilterModal({
 
         {/* Footer Actions */}
         <div className="p-4 border-t border-neutral-200 bg-neutral-50">
-          <div className="flex space-x-3">
+          <div className="flex flex-col space-y-3">
+            <button
+              onClick={onClose}
+              className="w-full btn-primary"
+            >
+              Apply Filters
+            </button>
             <button
               onClick={() => {
                 setSearchTerm('');
@@ -186,15 +191,9 @@ export function MobileFilterModal({
                 setSelectedCategory('all');
                 setPriceRange([0, maxPrice]);
               }}
-              className="flex-1 btn-outline-primary"
+              className="w-full btn-outline-primary"
             >
               Clear All
-            </button>
-            <button
-              onClick={onClose}
-              className="flex-1 btn-primary"
-            >
-              Apply Filters
             </button>
           </div>
         </div>

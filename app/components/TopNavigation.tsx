@@ -48,14 +48,14 @@ export function TopNavigation() {
                 height={40}
                 className="w-10 h-10"
               />
-              <span className="font-display text-2xl font-bold text-neutral-900">
+              <span className="font-display text-2xl font-bold text-neutral-900 hidden sm:inline">
                 OneCart
               </span>
             </Link>
           </div>
           
           {/* Right side - User Dropdown and Cart */}
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-3 sm:space-x-6">
             {/* User Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <button
@@ -69,7 +69,7 @@ export function TopNavigation() {
                   height={32}
                   className="w-6 h-6"
                 />
-                <span className="group-hover:underline">John Doe</span>
+                <span className="group-hover:underline hidden sm:inline">John Doe</span>
                 <svg 
                   className={`w-4 h-4 transition-transform ${isUserDropdownOpen ? 'rotate-180' : ''}`} 
                   fill="none" 
@@ -136,7 +136,7 @@ export function TopNavigation() {
                   className="w-6 h-6"
                 />
                 <div className="text-left">
-                  <div className="text-sm text-neutral-600 font-medium group-hover:underline">
+                  <div className="text-sm text-neutral-600 font-medium group-hover:underline hidden sm:block">
                     Shopping cart:
                   </div>
                   <div className="text-lg font-bold text-neutral-900">
