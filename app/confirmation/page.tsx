@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { TopNavigation } from '../components/TopNavigation';
@@ -10,7 +10,7 @@ import { generateInvoicePDF, generateOrderSummaryPDF } from '../utils/pdfGenerat
 import { formatDeliveryWindow } from '../utils/deliveryCalculations';
 import { Order } from '../types';
 
-export default function ConfirmationPage() {
+function ConfirmationContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { orders } = useCart();
@@ -216,7 +216,7 @@ export default function ConfirmationPage() {
             </li>
             <li className="flex items-start">
               <span className="mr-2">2.</span>
-              <span>You'll receive delivery notifications as each supplier ships their items</span>
+              <span>You&apos;ll receive delivery notifications as each supplier ships their items</span>
             </li>
             <li className="flex items-start">
               <span className="mr-2">3.</span>
@@ -230,5 +230,23 @@ export default function ConfirmationPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function ConfirmationPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50">
+        <TopNavigation />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading...</p>
+          </div>
+        </main>
+      </div>
+    }>
+      <ConfirmationContent />
+    </Suspense>
   );
 }

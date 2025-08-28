@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { TopNavigation } from '../components/TopNavigation';
@@ -8,7 +8,7 @@ import { useCart } from '../providers/CartProvider';
 import { mockProducts, mockSuppliers } from '../data/mockData';
 import { QualityIssue, Order } from '../types';
 
-export default function ReportIssuePage() {
+function ReportIssueContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { orders, reportIssue } = useCart();
@@ -85,7 +85,7 @@ export default function ReportIssuePage() {
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Issue Reported Successfully</h1>
             <p className="text-gray-600 mb-8">
-              We've received your report and will follow up with the supplier. You'll be contacted if we need additional information.
+              We&apos;ve received your report and will follow up with the supplier. You&apos;ll be contacted if we need additional information.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -248,7 +248,7 @@ export default function ReportIssuePage() {
                   <div>
                     <h4 className="font-medium text-blue-900 mb-1">What happens next?</h4>
                     <p className="text-sm text-blue-700">
-                      We'll review your report and work with the supplier to resolve the issue. 
+                      We&apos;ll review your report and work with the supplier to resolve the issue. 
                       For this demo, the issue will be logged locally.
                     </p>
                   </div>
@@ -286,5 +286,23 @@ export default function ReportIssuePage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function ReportIssuePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50">
+        <TopNavigation />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading...</p>
+          </div>
+        </main>
+      </div>
+    }>
+      <ReportIssueContent />
+    </Suspense>
   );
 }

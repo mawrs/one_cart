@@ -166,6 +166,6 @@ export const generateOrderSummaryPDF = (order: Order): void => {
   pdf.text(`Consolidated Window: ${new Date(order.deliveryWindow.start).toLocaleDateString()} - ${new Date(order.deliveryWindow.end).toLocaleDateString()}`, margin, currentY);
 
   // Save the PDF
-  const fileName = `CoffeeCart-Summary-${order.id}.pdf`;
+  const fileName = `OneCart-Summary-${order.id}.pdf`;
   pdf.save(fileName);
 };
