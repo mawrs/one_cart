@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Header } from '../components/Header';
+import { TopNavigation } from '../components/TopNavigation';
 import { useCart } from '../providers/CartProvider';
 import { mockProducts, mockSuppliers } from '../data/mockData';
 import { generateInvoicePDF } from '../utils/pdfGenerator';
@@ -50,7 +50,7 @@ export default function OrdersPage() {
   if (orders.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
+        <TopNavigation />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center py-12">
             <div className="text-gray-400 text-6xl mb-4">📋</div>
@@ -70,7 +70,7 @@ export default function OrdersPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+      <TopNavigation />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">

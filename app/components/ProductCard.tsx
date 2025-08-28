@@ -8,9 +8,10 @@ import { useCart } from '../providers/CartProvider';
 interface ProductCardProps {
   product: Product;
   supplier: Supplier;
+  onProductClick?: (product: Product) => void;
 }
 
-export function ProductCard({ product, supplier }: ProductCardProps) {
+export function ProductCard({ product, supplier, onProductClick }: ProductCardProps) {
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(product.minimumOrderQuantity);
   const [error, setError] = useState('');
@@ -33,8 +34,18 @@ export function ProductCard({ product, supplier }: ProductCardProps) {
     }
   };
 
+  const handleCardClick = () => {
+    if (onProductClick) {
+      onProductClick(product);
+    }
+  };
+
+  const stopPropagation = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
-    <div className="card hover-lift transition-all">
+    <div className="card hover-lift transition-all cursor-pointer" onClick={handleCardClick}>
       <div className="aspect-[4/3] bg-neutral-100 flex items-center justify-center relative overflow-hidden">
         {/* Category badge on top left of image */}
         <span className={`absolute top-3 left-3 badge ${
@@ -116,7 +127,7 @@ export function ProductCard({ product, supplier }: ProductCardProps) {
         </div>
         
         {/* Quantity and Add to Cart - side by side */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3" onClick={stopPropagation}>
           {/* Pill-shaped quantity selector */}
           <div className="flex items-center bg-white rounded-full border border-neutral-200 overflow-hidden">
             <button
@@ -125,9 +136,11 @@ export function ProductCard({ product, supplier }: ProductCardProps) {
               disabled={quantity <= product.minimumOrderQuantity}
               className="w-10 h-10 flex items-center justify-center hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-              </svg>
+              <div className="w-6 h-6 bg-neutral-100 rounded-full flex items-center justify-center">
+                <svg className="w-3 h-3 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                </svg>
+              </div>
             </button>
             
             <div className="px-4 py-2 min-w-[3rem] text-center">
@@ -141,9 +154,11 @@ export function ProductCard({ product, supplier }: ProductCardProps) {
               onClick={() => handleQuantityChange(quantity + 1)}
               className="w-10 h-10 flex items-center justify-center hover:bg-neutral-200 transition-colors"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
+              <div className="w-6 h-6 bg-neutral-100 rounded-full flex items-center justify-center">
+                <svg className="w-3 h-3 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+              </div>
             </button>
           </div>
           

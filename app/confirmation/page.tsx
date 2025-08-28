@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Header } from '../components/Header';
+import { TopNavigation } from '../components/TopNavigation';
 import { useCart } from '../providers/CartProvider';
 import { mockProducts, mockSuppliers } from '../data/mockData';
 import { generateInvoicePDF, generateOrderSummaryPDF } from '../utils/pdfGenerator';
@@ -36,7 +36,7 @@ export default function ConfirmationPage() {
   if (!order) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
+        <TopNavigation />
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
@@ -69,7 +69,7 @@ export default function ConfirmationPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+      <TopNavigation />
       
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Success Header */}

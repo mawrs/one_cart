@@ -5,14 +5,30 @@ import { TopNavigation } from './TopNavigation';
 import { HeroBanner } from './HeroBanner';
 import { Sidebar } from './Sidebar';
 import { ProductCard } from './ProductCard';
+import { ProductModal } from './ProductModal';
+import { MobileFilterButton } from './MobileFilterButton';
+import { MobileFilterModal } from './MobileFilterModal';
 import { mockProducts, mockSuppliers } from '../data/mockData';
-import { CategoryFilter, SortOption } from '../types';
+import { CategoryFilter, SortOption, Product } from '../types';
 
 export function CatalogPage() {
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('all');
   const [sortOption, setSortOption] = useState<SortOption>('name');
   const [searchTerm, setSearchTerm] = useState('');
   const [priceRange, setPriceRange] = useState([0, 100]);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
 
   const filteredAndSortedProducts = useMemo(() => {
     let filtered = mockProducts;
@@ -64,20 +80,22 @@ export function CatalogPage() {
       
       {/* Main Layout */}
       <div className="flex">
-        {/* Sidebar */}
-        <Sidebar
-          categoryFilter={categoryFilter}
-          setCategoryFilter={setCategoryFilter}
-          sortOption={sortOption}
-          setSortOption={setSortOption}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          priceRange={priceRange}
-          setPriceRange={setPriceRange}
-        />
+        {/* Sidebar - Hidden on mobile */}
+        <div className="hidden lg:block">
+          <Sidebar
+            categoryFilter={categoryFilter}
+            setCategoryFilter={setCategoryFilter}
+            sortOption={sortOption}
+            setSortOption={setSortOption}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+          />
+        </div>
         
         {/* Main Content */}
-        <main className="flex-1 p-8">
+        <main className="flex-1 p-4 lg:p-8">
           <div className="mb-8">
             <div className="flex items-center justify-between">
               <div>
@@ -114,6 +132,7 @@ export function CatalogPage() {
                   key={product.id}
                   product={product}
                   supplier={supplier}
+                  onProductClick={handleProductClick}
                 />
               );
             })}
@@ -138,6 +157,39 @@ export function CatalogPage() {
           )}
         </main>
       </div>
+      
+      {/* Mobile Filter Button */}
+      <MobileFilterButton
+        onClick={() => setIsMobileFilterOpen(true)}
+        activeFiltersCount={
+          (categoryFilter !== 'all' ? 1 : 0) +
+          (searchTerm ? 1 : 0) +
+          (sortOption !== 'name' ? 1 : 0) +
+          (priceRange[1] !== 100 ? 1 : 0)
+        }
+      />
+
+      {/* Mobile Filter Modal */}
+      <MobileFilterModal
+        isOpen={isMobileFilterOpen}
+        onClose={() => setIsMobileFilterOpen(false)}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        sortOption={sortOption}
+        setSortOption={setSortOption}
+        selectedCategory={categoryFilter}
+        setSelectedCategory={setCategoryFilter}
+        priceRange={priceRange}
+        setPriceRange={setPriceRange}
+        maxPrice={100}
+      />
+      
+      {/* Product Modal */}
+      <ProductModal
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 }

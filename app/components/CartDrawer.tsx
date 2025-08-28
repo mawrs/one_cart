@@ -39,7 +39,12 @@ export function CartDrawer() {
     <>
       {/* Overlay */}
       <div
-        className="fixed inset-0 bg-black bg-opacity-50 z-50"
+        className="fixed inset-0 z-50"
+        style={{
+          backgroundColor: 'rgba(0, 0, 0, 0.4)',
+          backdropFilter: 'blur(4px)',
+          overflow: 'hidden'
+        }}
         onClick={closeCart}
       />
       
@@ -99,24 +104,34 @@ export function CartDrawer() {
                     </div>
                     
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center bg-white rounded-full border border-neutral-200 overflow-hidden w-fit">
                         <button
                           onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                          className="w-6 h-6 border border-gray-300 rounded flex items-center justify-center text-sm hover:bg-gray-50"
+                          className="w-8 h-8 flex items-center justify-center hover:bg-neutral-200 transition-colors"
                         >
-                          -
+                          <div className="w-4 h-4 bg-neutral-100 rounded-full flex items-center justify-center">
+                            <svg className="w-2 h-2 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                            </svg>
+                          </div>
                         </button>
-                        <span className="text-sm font-medium w-8 text-center">
-                          {item.quantity}
-                        </span>
+                        <div className="px-3 py-1 min-w-[2rem] text-center">
+                          <span className="text-sm font-semibold text-neutral-900">
+                            {item.quantity}
+                          </span>
+                        </div>
                         <button
                           onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                          className="w-6 h-6 border border-gray-300 rounded flex items-center justify-center text-sm hover:bg-gray-50"
+                          className="w-8 h-8 flex items-center justify-center hover:bg-neutral-200 transition-colors"
                         >
-                          +
+                          <div className="w-4 h-4 bg-neutral-100 rounded-full flex items-center justify-center">
+                            <svg className="w-2 h-2 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                            </svg>
+                          </div>
                         </button>
                       </div>
-                      <span className="font-medium text-sm">
+                      <span className="font-bold text-sm text-neutral-900">
                         ${(item.product!.price * item.quantity).toFixed(2)}
                       </span>
                     </div>
@@ -130,8 +145,8 @@ export function CartDrawer() {
           {cartItems.length > 0 && (
             <div className="border-t border-gray-200 p-4 space-y-4">
               <div className="flex justify-between items-center">
-                <span className="font-semibold text-gray-900">Total:</span>
-                <span className="font-bold text-lg text-gray-900">
+                <span className="font-semibold text-neutral-900">Total:</span>
+                <span className="font-bold text-xl text-neutral-900">
                   ${totalAmount.toFixed(2)}
                 </span>
               </div>
